@@ -1,0 +1,12 @@
+[
+    { 
+        "id": "LS2024",
+        "name": "Lok Sabha Elections 2024",
+        "ongoing": true
+    },
+    { 
+       "id": "LS2019",
+       "name": "Lok Sabha Elections 2019",
+       "ongoing": false
+    }
+ ]

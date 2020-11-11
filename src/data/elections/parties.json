@@ -1,0 +1,22 @@
+{
+    "YSRCP": {
+        "partyId": "YSRCP",
+        "partyName": "Yuvajana Sramika Rythu Congress Party"
+    },
+    "TDP": {
+        "partyId": "TDP",
+        "partyName": "Telugu Desam Party"
+    },
+    "JNSN": {
+        "partyId": "JNSN",
+        "partyName": "Jana Sena"
+    },
+    "BJP": {
+        "partyId": "BJP",
+        "partyName": "Bharatiya Janata Party"
+    },
+    "INC": {
+        "partyId": "INC",
+        "partyName": "Indian National Congress"
+    }
+}

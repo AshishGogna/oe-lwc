@@ -1,0 +1,93 @@
+[
+    {
+        "contituencyId": "AP1",
+        "contituencyName": "Araku",
+        "stateName": "Andhra Pradesh",
+        "candidates": [
+            {
+                "candidateId": "AP1YSRCPGM",
+                "candidateName": "Goddeti Madhavi",
+                "partyId": "YSRCP"
+            },
+            {
+                "candidateId": "AP1TDPKCD",
+                "candidateName": "Kishore Chandra Deo",
+                "partyId": "TDP"
+            },
+            {
+                "candidateId": "AP1JNSNGV",
+                "candidateName": "Gangulaiah Vampuru",
+                "partyId": "JNSN"
+            },
+            {
+                "candidateId": "AP1BJPKKVVVSR",
+                "candidateName": "K. K. V. V. V. Satyanarayana Reddy",
+                "partyId": "BJP"
+            },
+            {
+                "candidateId": "AP1INCSDV",
+                "candidateName": "Shruti Devi Vyricherla",
+                "partyId": "INC"
+            }
+        ]
+    },
+    {
+        "contituencyId": "AP2",
+        "contituencyName": "Srikakulam",
+        "stateName": "Andhra Pradesh",
+        "candidates": [
+            {
+                "candidateId": "AP2YSRCPDS",
+                "candidateName": "Duvvada Srinivas",
+                "partyId": "YSRCP"
+            },
+            {
+                "candidateId": "AP2TDPKRMN",
+                "candidateName": "Kinjarapu Ram Mohan Naidu",
+                "partyId": "TDP"
+            },
+            {
+                "candidateId": "AP2JNSNMRM",
+                "candidateName": "Metta RamaraoMetta Ramarao",
+                "partyId": "JNSN"
+            },
+            {
+                "candidateId": "AP2BJPPSM",
+                "candidateName": "Perla Samba Murthy",
+                "partyId": "BJP"
+            },
+            {
+                "candidateId": "AP2INCDJ",
+                "candidateName": "Dola Jagan",
+                "partyId": "INC"
+            }
+        ]
+    },
+    {
+        "contituencyId": "AP3",
+        "contituencyName": "Vizianagaram",
+        "stateName": "Andhra Pradesh",
+        "candidates": [
+            {
+                "candidateId": "AP3YSRCPBCS",
+                "candidateName": "Bellana Chandra Sekhar",
+                "partyId": "YSRCP"
+            },
+            {
+                "candidateId": "AP3TDPAGRP",
+                "candidateName": "Ashok Gajapathi Raju Pusapati",
+                "partyId": "TDP"
+            },
+            {
+                "candidateId": "AP3JNSNMSR",
+                "candidateName": "Mukka Srinivasa Rao",
+                "partyId": "JNSN"
+            },
+            {
+                "candidateId": "AP3BJPSRP",
+                "candidateName": "Sanyasi Raju Pakalapati",
+                "partyId": "BJP"
+            }
+        ]
+    }
+]
