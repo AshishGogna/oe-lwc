@@ -225,7 +225,7 @@ button:focus {
   margin: 0 auto;
   position: relative;
   top: 10%;
-  left: 20px;
+  left: 0px;
 }
 
 .page-section-vote-election-result-status {
@@ -247,4 +247,6 @@ button:focus {
 
 .page-section-vote-election-result-digink {
   color: blue;
+  font-size: 14px;
+  margin-left: -40px;
 }

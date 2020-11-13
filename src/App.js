@@ -7,7 +7,11 @@ import TDP from './data/images/logos/TDP.png';
 import JNSN from './data/images/logos/JNSN.png';
 import BJP from './data/images/logos/BJP.png';
 import INC from './data/images/logos/INC.png';
-
+var sha256 = require('js-sha256');
+var pbkdf2 = require('pbkdf2');
+var aesjs = require('aes-js');
+const NodeRSA = require('node-rsa');
+var registry = require('./data/registry.json')
 var parties = require('./data/elections/parties.json')
 var partyLogos;
 
@@ -21,6 +25,7 @@ var voteScreen = 0;
 var selectedElectiionId;
 var selectedConstituencyId;
 var selectedCandidateId;
+var voterAadharId;
 
 var voteResult = {
   icon: SUCCESS,
@@ -91,30 +96,36 @@ function populateVoterIdScreen(fu, candidateId) {
   fu();
 }
 
-function populateSubmittingScreen(fu, aadharId) {
+function populateSubmittingScreen(fu) {
+  voteScreen = 4;
+  fu();
+
   var vote = {
     electionId: selectedElectiionId,
     constituencyId: selectedConstituencyId,
     candidateId: selectedCandidateId,
-    voterFingerprint: aadharId
+    voterFingerprint: sha256(voterAadharId)
   }
   console.log("Submit vote: ");
-  console.log(vote);
+  console.log(JSON.stringify(vote));
 
-  voteResult = {
-    icon: FAILURE,
-    desc: "Failed to submit your vote.",
-    reason: "You've already casted your vote",
-    digink: ""
-  };
-  
-  voteScreen = 4;
+  // setTimeout(function() { 
+  //   voteResult = {
+  //     icon: SUCCESS,
+  //     desc: "Vote Submitted!",
+  //     reason: "Here's your digital receipt: ",
+  //     digink: "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89"
+  //   };
+  //   voteScreen = 5;
+  //   fu();
+  // }, 1000);
 
-
-
-  fu();
+  submitVote(vote, 0, fu);  
 }
 
+function updateVoterAadharId (x) {
+  voterAadharId = x;
+}
 function App() {
 
   populatePartyLogos();
@@ -164,8 +175,8 @@ function App() {
             <div className="page-section-vote-auth" hidden={voteScreen!=3}>
               <div className="page-section-vote-election-list-title">Authorize</div>
               <div className="page-section-vote-auth-aadhar-input-title">Enter your Aadhar Id</div>
-              <input className="page-section-vote-auth-aadhar-input" type="text" pattern="\d*" maxlength="12" placeholder="XXXX XXXX XXXX"></input>
-              <button className="page-section-vote-auth-aadhar-input" onClick={() => populateSubmittingScreen(forceUpdate, "XXX")}>VOTE</button>
+              <input className="page-section-vote-auth-aadhar-input" type="text" onInput={e => updateVoterAadharId(e.target.value)} pattern="\d*" maxlength="12" placeholder="XXXX XXXX XXXX"></input>
+              <button className="page-section-vote-auth-aadhar-input" onClick={() => populateSubmittingScreen(forceUpdate)}>VOTE</button>
               <div className="page-section-vote-election-list-auth-info">Aadhar verification will be bypassed for testing purposes.</div>
             </div>
 
@@ -185,6 +196,69 @@ function App() {
       </div>
     </div>
   );
+}
+
+function encrypt(pwd, data) {
+  var key = pbkdf2.pbkdf2Sync(pwd, 'salt', 1, 128 / 8, 'sha512');
+  var text = data;
+  var textBytes = aesjs.utils.utf8.toBytes(text);
+  var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+  var encryptedBytes = aesCtr.encrypt(textBytes);
+  var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+  return encryptedHex;
+}
+
+function decrypt(pwd, data) {
+  var key = pbkdf2.pbkdf2Sync(pwd, 'salt', 1, 128 / 8, 'sha512');
+  var encryptedBytes = aesjs.utils.hex.toBytes(data);
+  var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+  var decryptedBytes = aesCtr.decrypt(encryptedBytes);
+  var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+  return decryptedText;
+}
+
+function submitVote(vote, i, fu) {
+  var requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(vote)
+  };
+  fetch(registry.nodes[i], requestOptions)
+  .then(response => response.json())
+  .then(response => {
+      console.log("Node response:");
+      console.log(response)
+
+      if (response.status.code != 200) {
+        i = i + 1;
+        if (i < registry.nodes.length) submitVote(vote, i, fu);
+        else {
+          var r = "";
+          voteResult = {
+            icon: FAILURE,
+            desc: "Vote Submission Falied!",
+            reason: r,
+            digink: ""
+          };
+          voteScreen = 5;
+          fu();
+        }
+      }
+      else {
+        voteResult = {
+          icon: SUCCESS,
+          desc: "Vote Submitted!",
+          reason: "Here's your digital receipt: ",
+          digink: response.payload.voteHash
+        };
+        voteScreen = 5;
+        fu();
+      }
+  })
+  .catch(error => {
+    console.log("Node error:");
+    console.log(error);
+  });
 }
 
 export default App;
