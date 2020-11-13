@@ -97,6 +97,12 @@ function populateVoterIdScreen(fu, candidateId) {
 }
 
 function populateSubmittingScreen(fu) {
+
+  if (!voterAadharId || voterAadharId.length != 12) {
+    alert("Please enter a valid 12 digit Aadhar Id.")
+    return;
+  }
+
   voteScreen = 4;
   fu();
 
@@ -108,17 +114,6 @@ function populateSubmittingScreen(fu) {
   }
   console.log("Submit vote: ");
   console.log(JSON.stringify(vote));
-
-  // setTimeout(function() { 
-  //   voteResult = {
-  //     icon: SUCCESS,
-  //     desc: "Vote Submitted!",
-  //     reason: "Here's your digital receipt: ",
-  //     digink: "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89"
-  //   };
-  //   voteScreen = 5;
-  //   fu();
-  // }, 1000);
 
   submitVote(vote, 0, fu);  
 }
@@ -149,11 +144,13 @@ function App() {
           <div className="page-section-info-wrapper">
             <h1>Open Elect.</h1>
             <p>Digital, Decentralized and Open Voting System. Based on Blockchain Technology.</p>
+            <p className="repo">Github: <a href="https://github.com/AshishGogna/oe-protocol" target="_blank">https://github.com/AshishGogna/oe-protocol</a></p>
           </div>
+          <a href="#page-section-header-vote"><div className="page-section-info-vote-button">Cast your Vote</div></a>
         </div>
         <div className="page-section" id="page-section-vote">
           <div className="page-section-vote-wrapper">
-            <div className="page-section-header">
+            <div className="page-section-header" id="page-section-header-vote">
               <span className="page-section-header-title">Caste Your Vote.</span>
             </div>
 
@@ -175,7 +172,7 @@ function App() {
             <div className="page-section-vote-auth" hidden={voteScreen!=3}>
               <div className="page-section-vote-election-list-title">Authorize</div>
               <div className="page-section-vote-auth-aadhar-input-title">Enter your Aadhar Id</div>
-              <input className="page-section-vote-auth-aadhar-input" type="text" onInput={e => updateVoterAadharId(e.target.value)} pattern="\d*" maxlength="12" placeholder="XXXX XXXX XXXX"></input>
+              <input className="page-section-vote-auth-aadhar-input" type="number" onInput={e => updateVoterAadharId(e.target.value)} pattern="\d*" max="2" placeholder="XXXX XXXX XXXX"></input>
               <button className="page-section-vote-auth-aadhar-input" onClick={() => populateSubmittingScreen(forceUpdate)}>VOTE</button>
               <div className="page-section-vote-election-list-auth-info">Aadhar verification will be bypassed for testing purposes.</div>
             </div>

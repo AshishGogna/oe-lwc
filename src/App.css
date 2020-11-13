@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Fredoka One', cursive;
 } 
@@ -248,5 +252,38 @@ button:focus {
 .page-section-vote-election-result-digink {
   color: blue;
   font-size: 14px;
-  margin-left: -40px;
+  margin-left: -54px;
+}
+
+.page-section-info-vote-button {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  border: 2px solid black;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  color: black;
+}
+
+.page-section-info-vote-button:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.repo {
+  font-size: 18px;
 }
